@@ -5,7 +5,7 @@ import {
   albumsData,
   songsData,
   assets,
-} from '../assets/frontend-assets/assets';
+} from '../assets/assets';
 import { PlayerContext } from '../context/PlayerContext';
 
 function DisplayAlbum() {
