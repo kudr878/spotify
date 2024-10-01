@@ -18,6 +18,23 @@ function ListAlbum() {
     }
   };
 
+  const removeAlbum = async (id) => {
+    try {
+      const response = await axios.request({
+        url: `${url}/api/album/remove`,
+        method: 'delete',
+        data: { id },
+      });
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        await fetchAlbums();
+      }
+    } catch (error) {
+      toast.error('Error occurred while removing album!');
+    }
+  };
+
   useEffect(() => {
     fetchAlbums();
   }, []);
@@ -26,7 +43,7 @@ function ListAlbum() {
     <div>
       <p>All Albums List</p>
       <br />
-      <div className="sm:grid hidden grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-100">
+      <div className="sm:grid hidden grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100">
         <b>Image</b>
         <b>Name</b>
         <b>Description</b>
@@ -37,13 +54,15 @@ function ListAlbum() {
         return (
           <div
             key={index}
-            className="grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-100 text-sm mr-5"
+            className="grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5"
           >
             <img className="w-12" src={item.image} alt="" />
             <p>{item.name}</p>
             <p>{item.desc}</p>
             <input type="color" value={item.bgColor} />
-            <p className="cursor-pointer">X</p>
+            <p className="cursor-pointer" onClick={() => removeAlbum(item._id)}>
+              X
+            </p>
           </div>
         );
       })}
